@@ -1,16 +1,12 @@
-from flask import Flask
-from flask_sqlalchemy import SQLAlchemy
-from ..config import DB_CREDENTIALS
+from ..app import db
+from ..priority import priority as prio
 import datetime as dt
 
-app = Flask(__name__)  # remove later
-db = SQLAlchemy(app)  # remove later
-app.config['SQLALCHEMY_DATABASE_URI'] = \
-    'postgresql://%(user)s:%(pw)s@%(host)s:%(port)s/%(db)s' % DB_CREDENTIALS
+# app.config['SQLALCHEMY_DATABASE_URI'] = \
+#    'postgresql://%(user)s:%(pw)s@%(host)s:%(port)s/%(db)s' % DB_CREDENTIALS
 
 
 class Task(db.Model):
-    # TODO: Get this documentation done
     """ This class represents portion of life to be improved or a project
 
     This class represents portion of life to be improved or a project.
@@ -26,7 +22,7 @@ class Task(db.Model):
                        Accepted Vals - "Not Started", "Started", "Depreciated",
                             "Backburner", "Event", "Blocked"
         :param priority: int - priority of the function
-                         Default - #TODO add here
+                         Default - Prioity at time being made (to be refreshed)
         :param visible: boolean - visibility of the task on the creen
                         Default - True
 
@@ -38,23 +34,26 @@ class Task(db.Model):
                          Default=datetime.MAX_YEAR()
         :param completion_date: datetime - date that task should be
                                            completed
-        :param start_priority: #TODO add here
-        :param creation_priority:
-        :param due_priority:
-        :param completion_priority:
+
+        :param start_priority: Prioirity at time task becomes applicable
+                               Default - Priority at time being made
+        :param creation_priority:Prioirity at time being made
+                                 Default - Priority at time being made
+        :param due_priority: Prioirity at time task id due
+                             Default - Priority at time being made
+        :param completion_priority: Prioirity at time being completed
+                                    Default - Priority at time being made
 
         :param recur_task: Task - Optional previous recurring task in recur seq
-
         :param super_task: Task - Optional task which depends on this task
-
-        :param time_slots: Task - Optional timeslot associated with task
+        :param time_slots: TimeSlot - Optional timeslot associated with task
 
         scope
     """
     def __init__(  # TODO: get constructor done
         self,
         name,
-        status="Not Started",
+        status="Not Strted",
         priority=None,  # TODO add priority here
         visible=True,
         start_date=dt.now(),
@@ -69,6 +68,26 @@ class Task(db.Model):
         super_task=None,
         scope=None,
     ):
+        if priority is None:
+            # HACK placeholders with tags
+            priority = prio.priority(scope, ["tag1", "tag2"], due_date)
+        if creation_priority is None:
+            # HACK placeholders with tags
+            creation_priority = prio.priority(
+                scope,
+                ["tag1", "tag2"],
+                due_date,
+                creation_date
+            )
+        if start_priority is None:
+            # HACK placeholders with tags
+            start_priority = prio.priority(
+                scope,
+                ["tag1", "tag2"],
+                due_date,
+                start_date
+            )
+
         self.name = name
         self.status = status
         self.priority = priority

@@ -26,8 +26,11 @@ def priority(scopes, tags, dateDue, dateNow=dt.now(), precision="Hours"):
     prio = 0
     # Projects
 
-    for scope in scopes:
-        prio += sampleScopes[scope]  # Assumes tag in list before it is called
+    try:
+        for scope in scopes:
+            prio += sampleScopes[scope]  # Assumes scope pre defined
+    except TypeError:
+        prio += sampleScopes[scopes]
 
     # Tags
     for tag in tags:
