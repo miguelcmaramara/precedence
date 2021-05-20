@@ -43,11 +43,11 @@ class Task(db.Model):
         :param due_priority:
         :param completion_priority:
 
-        :param recur_task: Task - Optional previous recurring task in recurre seq
+        :param recur_task: Task - Optional previous recurring task in recur seq
 
         :param super_task: Task - Optional task which depends on this task
 
-        :param time_slots: Task - Optional timeslot which is associated with task
+        :param time_slots: Task - Optional timeslot associated with task
 
         scope
     """
@@ -55,19 +55,18 @@ class Task(db.Model):
         self,
         name,
         status="Not Started",
-        priority=None, #TODO add priority here
-        visibility=True,
+        priority=None,  # TODO add priority here
+        visible=True,
         start_date=dt.now(),
         creation_date=dt.now(),
         due_date=dt.MAXYEAR,
         completion_date=None,
-        start_priority=None, # TODO add a priorty function
-        creation_priority=None, # Here too
-        due_priority=None, # Here too
-        completion_priority=None, # Here too
-        recur_task=None, # Input task objects here and below
+        start_priority=None,  # TODO add a priorty function
+        creation_priority=None,  # Here too
+        due_priority=None,  # Here too
+        completion_priority=None,  # Here too
+        recur_task=None,  # Input task objects here and below
         super_task=None,
-        time_slots=None,
         scope=None,
     ):
         self.name = name
@@ -87,44 +86,7 @@ class Task(db.Model):
 
         self.self.recur_task = recur_task.id
         self.self.super_task = super_task.id
-        self.self.time_slots = time_slot.id
         self.scope = scope.id
-
-        name
-        status
-        priority
-        visible
-        
-        start_date
-        creation_date
-        due_date
-        completion_date
-        
-        start_priority
-        creation_priority
-        due_priority
-        completion_priority
-        
-        recur_task
-
-        super_task
-
-        time_slots
-
-        scope
-
-
-
-
-
-
-
-
-
-
-
-
-
 
     # TODO: get getter/setter ready for prioirty stuff
 
@@ -171,7 +133,7 @@ class Scope(db.Model):
 
     - **Parameters**::
         :param name: String - Name of the scope
-        :param visibility: boolean - If the item should show up on the scopes
+        :param visible: boolean - If the item should show up on the scopes
                           Default=True
         :param start_date: datetime - Optional start of the project
                            Default=datetime.now()
@@ -192,7 +154,7 @@ class Scope(db.Model):
     def __init__(
         self,
         name,
-        visibility=True,
+        visible=True,
         start_date=dt.now(),
         creation_date=dt.now(),
         due_date=dt.MAXYEAR,
@@ -202,7 +164,7 @@ class Scope(db.Model):
         super_scope=None
     ):
         self.name = name
-        self.visibility = visibility
+        self.visible = visible
         self.start_date = start_date
         self.creation_date = creation_date
         self.due_date = due_date
@@ -215,7 +177,7 @@ class Scope(db.Model):
 
     id = db.Column(db.Integer, primary_key=True, nullable=False)
     name = db.Column(db.String, nullable=False)
-    visibility = db.Column(db.boolean, nullable=False)
+    visible = db.Column(db.boolean, nullable=False)
 
     start_date = db.Column(db.dateTime)
     creation_date = db.Column(db.dateTime, nullable=False)
@@ -229,7 +191,7 @@ class Scope(db.Model):
     super_scope = db.Column(db.Integer, db.ForeignKey("scope.id"))
     sub_scopes = db.relationship("Scope", backref="super_scope", lazy=True)
 
-    #NOTE Should I change the backref name of this haha
+    # NOTE Should I change the backref name of this haha
     tasks = db.relationship("Scope", backref="scope", lazy=True)
 
 
