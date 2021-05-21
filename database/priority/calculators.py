@@ -6,7 +6,7 @@ def priorityTest():
     return -1
 
 
-def priorityFromTask(task, dateNow=dt.now, dateDue=None):
+def priorityFromTask(task, dateNow=dt.datetime.now(), dateDue=None):
     if dateDue is not None:
         dateDue = task.due_date
 
@@ -18,7 +18,7 @@ def priorityFromTask(task, dateNow=dt.now, dateDue=None):
         )
 
 
-def priority(scopes, tags, dateDue, dateNow=dt.now(), precision="Hours"):
+def priority(scopes, tags, dateDue, dateNow=dt.datetime.now(), precision="Hours"):
     # model:
     # 4 ^ (dateBetween(now(), end(prop("Due Date")), "hours") / 100 +
     # 1.5 ^ prop("Difficulty") - .75
