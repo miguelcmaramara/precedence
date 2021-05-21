@@ -1,9 +1,11 @@
-from ..app import db
-from ..priority import priority as prio
+from .rdb import db
+from .priority import calculators as prio
 import datetime as dt
 
 # app.config['SQLALCHEMY_DATABASE_URI'] = \
 #    'postgresql://%(user)s:%(pw)s@%(host)s:%(port)s/%(db)s' % DB_CREDENTIALS
+
+# TODO: Add __repr__ and __str__
 
 
 class Task(db.Model):
@@ -56,8 +58,8 @@ class Task(db.Model):
         status="Not Strted",
         priority=None,  # TODO add priority here
         visible=True,
-        start_date=dt.now(),
-        creation_date=dt.now(),
+        start_date=dt.datetime.now(),
+        creation_date=dt.datetime.now(),
         due_date=dt.MAXYEAR,
         completion_date=None,
         start_priority=None,  # TODO add a priorty function
@@ -118,25 +120,25 @@ class Task(db.Model):
     priority = db.Column(db.Float, nullable=False)
     visible = db.Column(db.Boolean, nullable=False)
 
-    start_date = db.Column(db.dateTime)
-    creation_date = db.Column(db.dateTime, nullable=False)
-    due_date = db.Column(db.dateTime)
-    completion_date = db.Column(db.dateTime)
+    start_date = db.Column(db.DateTime)
+    creation_date = db.Column(db.DateTime, nullable=False)
+    due_date = db.Column(db.DateTime)
+    completion_date = db.Column(db.DateTime)
 
-    start_priority = db.Column(db.dateTime)
-    creation_priority = db.Column(db.dateTime, nullable=False)
-    due_priority = db.Column(db.dateTime)
-    completion_priority = db.Column(db.dateTime)
+    start_priority = db.Column(db.DateTime)
+    creation_priority = db.Column(db.DateTime, nullable=False)
+    due_priority = db.Column(db.DateTime)
+    completion_priority = db.Column(db.DateTime)
 
-    recur_task = db.Column(db.Integer, db.ForeignKey("task.id"))
+    recur_task = db.Column(db.Integer, db.ForeignKey("tasks.id"))
     recur_tasks = db.relationship("Task", backref="framework_task", lazy=True)
 
-    super_task = db.Column(db.Integer, db.ForeignKey("task.id"))
+    super_task = db.Column(db.Integer, db.ForeignKey("tasks.id"))
     sub_tasks = db.relationship("Task", backref="super_task", lazy=True)
 
     time_slots = db.relationship("TimeSlow", backref="task", lazy=True)
 
-    scope = db.Column(db.Integer, db.ForeignKey("Scope.id"))
+    scope = db.Column(db.Integer, db.ForeignKey("scopes.id"))
     # TODO: implement tags
     # tags
 
@@ -174,8 +176,8 @@ class Scope(db.Model):
         self,
         name,
         visible=True,
-        start_date=dt.now(),
-        creation_date=dt.now(),
+        start_date=dt.datetime.now(),
+        creation_date=dt.datetime.now(),
         due_date=dt.MAXYEAR,
         completion_date=None,
         project=False,
@@ -196,18 +198,18 @@ class Scope(db.Model):
 
     id = db.Column(db.Integer, primary_key=True, nullable=False)
     name = db.Column(db.String, nullable=False)
-    visible = db.Column(db.boolean, nullable=False)
+    visible = db.Column(db.Boolean, nullable=False)
 
-    start_date = db.Column(db.dateTime)
-    creation_date = db.Column(db.dateTime, nullable=False)
-    due_date = db.Column(db.dateTime)
-    completion_date = db.Column(db.dateTime)
+    start_date = db.Column(db.DateTime)
+    creation_date = db.Column(db.DateTime, nullable=False)
+    due_date = db.Column(db.DateTime)
+    completion_date = db.Column(db.DateTime)
 
     project = db.Column(db.Boolean, nullable=False)
     color = db.Column(db.String, nullable=False)
 
     # TODO: Is vvv a sep table?
-    super_scope = db.Column(db.Integer, db.ForeignKey("scope.id"))
+    super_scope = db.Column(db.Integer, db.ForeignKey("scopes.id"))
     sub_scopes = db.relationship("Scope", backref="super_scope", lazy=True)
 
     # NOTE Should I change the backref name of this haha
@@ -238,7 +240,7 @@ class TimeSlot(db.Model):
         name,
         start_date,
         end_date,
-        creation_date=dt.now(),
+        creation_date=dt.datetime.now(),
         task=None,
         success=0
     ):
@@ -251,12 +253,12 @@ class TimeSlot(db.Model):
 
     __tablename__ = "time_slots"
 
-    id = db.Column(db.Integer, primary_Key=True, nullable=False)
+    id = db.Column(db.Integer, primary_key=True, nullable=False)
     name = db.Column(db.String, nullable=False)
 
-    start_date = db.Column(db.dateTime, nullable=False)
-    end_date = db.Column(db.dateTime, nullable=False)
-    creation_date = db.Column(db.dateTime, nullable=False)
+    start_date = db.Column(db.DateTime, nullable=False)
+    end_date = db.Column(db.DateTime, nullable=False)
+    creation_date = db.Column(db.DateTime, nullable=False)
 
-    task = db.Column(db.Integer, db.ForeignKey("task.id"))
+    task = db.Column(db.Integer, db.ForeignKey("tasks.id"))
     success = db.Column(db.Integer)
