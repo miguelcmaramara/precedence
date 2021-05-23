@@ -2,8 +2,6 @@ from .rdb import db
 from .priority import calculators as prio
 import datetime as dt
 
-# app.config['SQLALCHEMY_DATABASE_URI'] = \
-#    'postgresql://%(user)s:%(pw)s@%(host)s:%(port)s/%(db)s' % DB_CREDENTIALS
 
 # TODO: Add __repr__ and __str__
 
@@ -19,10 +17,10 @@ class Task(db.Model):
 
     - **Parameters**::
         :param name: String - Name of the task
-        :param status: String - Status of the task
-                       Default - "Not Started"
-                       Accepted Vals - "Not Started", "Started", "Depreciated",
-                            "Backburner", "Event", "Blocked"
+        :param status: Integer - Status of the task  # TODO string? if not, then dict
+                       Default - "Not Started" = 1
+                       Accepted Vals - "Backburner"=0, "Not Started"=1, "Started"=2,
+                             "Finished=3, "Depreciated"=4, "Event"=5, "Blocked"=-1
         :param priority: int - priority of the function
                          Default - Prioity at time being made (to be refreshed)
         :param visible: boolean - visibility of the task on the creen
@@ -55,7 +53,7 @@ class Task(db.Model):
     def __init__(  # TODO: get constructor done
         self,
         name,
-        status="Not Strted",
+        status=1,
         priority=None,  # TODO add priority here
         visible=True,
         start_date=dt.datetime.now(),
@@ -105,9 +103,12 @@ class Task(db.Model):
         self.due_priority = due_priority
         self.completion_priority = completion_priority
 
-        self.self.recur_task = recur_task.id
-        self.self.super_task = super_task.id
-        self.scope = scope.id
+        if recur_task is not None:
+            self.recur_task = recur_task.id
+        # if super_task is not None:
+        #     self.super_task = super_task.id
+        if scope is not None:
+            self.scope = scope.id
 
     # TODO: get getter/setter ready for prioirty stuff
 
@@ -116,6 +117,7 @@ class Task(db.Model):
     id = db.Column(db.Integer, primary_key=True, nullable=False)
     name = db.Column(db.String(100), nullable=False)
 
+    # NOTE: Consider changing this to a string
     status = db.Column(db.Integer, nullable=False)
     priority = db.Column(db.Float, nullable=False)
     visible = db.Column(db.Boolean, nullable=False)
@@ -125,18 +127,18 @@ class Task(db.Model):
     due_date = db.Column(db.DateTime)
     completion_date = db.Column(db.DateTime)
 
-    start_priority = db.Column(db.DateTime)
-    creation_priority = db.Column(db.DateTime, nullable=False)
-    due_priority = db.Column(db.DateTime)
-    completion_priority = db.Column(db.DateTime)
+    start_priority = db.Column(db.Float)
+    creation_priority = db.Column(db.Float, nullable=False)
+    due_priority = db.Column(db.Float)
+    completion_priority = db.Column(db.Float)
 
     recur_task = db.Column(db.Integer, db.ForeignKey("tasks.id"))
-    recur_tasks = db.relationship("Task", backref="framework_task", lazy=True)
+    recur_tasks = db.relationship("Task")#, backref="framework_task", lazy=True)
 
-    super_task = db.Column(db.Integer, db.ForeignKey("tasks.id"))
-    sub_tasks = db.relationship("Task", backref="super_task", lazy=True)
+    # super_task = db.Column(db.Integer, db.ForeignKey("tasks.id"))
+    #sub_tasks = db.relationship("Task", backref="super_task", lazy=True)
 
-    time_slots = db.relationship("TimeSlow", backref="task", lazy=True)
+    time_slots = db.relationship("TimeSlot", backref="asc_task", lazy=True)
 
     scope = db.Column(db.Integer, db.ForeignKey("scopes.id"))
     # TODO: implement tags
@@ -210,10 +212,10 @@ class Scope(db.Model):
 
     # TODO: Is vvv a sep table?
     super_scope = db.Column(db.Integer, db.ForeignKey("scopes.id"))
-    sub_scopes = db.relationship("Scope", backref="super_scope", lazy=True)
+    sub_scopes = db.relationship("Scope")  #, backref="super_scope", lazy=True)
 
     # NOTE Should I change the backref name of this haha
-    tasks = db.relationship("Scope", backref="scope", lazy=True)
+    tasks = db.relationship("Scope")  #, backref="asc_scope", lazy=True)
 
 
 class TimeSlot(db.Model):

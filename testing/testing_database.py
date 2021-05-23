@@ -1,18 +1,20 @@
 from ..database import models
 import datetime as dt
-from flask import Blueprint  # , render_template, abort
-# from jinja2 import TemplateNotFound
+from flask import Blueprint
 
-print("testing_database loaded")
+print("-> testing_database loaded")
 testing_db = Blueprint("testing", __name__)
 
+@testing_db.route("/test")
+def test():
+    return{"message": f"testing successful"}
 
 @testing_db.route("/test/add_task")
 def add_task():
     new_task = models.Task(
         "test_task",
-        "Not Started",
-        due_date=dt.now() + dt.timedelta(days=2),
+        1,
+        due_date=dt.datetime.now() + dt.timedelta(days=2),
     )
 
     models.db.session.add(new_task)
@@ -35,8 +37,8 @@ def add_scope():
 def add_time_slot():
     new_time_slot = models.TimeSlot(
         "test_time_slot",
-        start_date=dt.now(),
-        end_date=dt.now() + dt.timedelta(hours=5)
+        start_date=dt.datetime.now(),
+        end_date=dt.datetime.now() + dt.timedelta(hours=5)
     )
 
     models.db.session.add(new_time_slot)

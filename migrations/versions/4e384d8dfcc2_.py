@@ -1,8 +1,8 @@
 """empty message
 
-Revision ID: 30e46ad1ec8e
-Revises: 995db74c911b
-Create Date: 2021-05-21 07:26:35.117790
+Revision ID: 4e384d8dfcc2
+Revises: 
+Create Date: 2021-05-23 17:31:17.891636
 
 """
 from alembic import op
@@ -10,8 +10,8 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '30e46ad1ec8e'
-down_revision = '995db74c911b'
+revision = '4e384d8dfcc2'
+down_revision = None
 branch_labels = None
 depends_on = None
 
@@ -42,16 +42,14 @@ def upgrade():
     sa.Column('creation_date', sa.DateTime(), nullable=False),
     sa.Column('due_date', sa.DateTime(), nullable=True),
     sa.Column('completion_date', sa.DateTime(), nullable=True),
-    sa.Column('start_priority', sa.DateTime(), nullable=True),
-    sa.Column('creation_priority', sa.DateTime(), nullable=False),
-    sa.Column('due_priority', sa.DateTime(), nullable=True),
-    sa.Column('completion_priority', sa.DateTime(), nullable=True),
+    sa.Column('start_priority', sa.Float(), nullable=True),
+    sa.Column('creation_priority', sa.Float(), nullable=False),
+    sa.Column('due_priority', sa.Float(), nullable=True),
+    sa.Column('completion_priority', sa.Float(), nullable=True),
     sa.Column('recur_task', sa.Integer(), nullable=True),
-    sa.Column('super_task', sa.Integer(), nullable=True),
     sa.Column('scope', sa.Integer(), nullable=True),
     sa.ForeignKeyConstraint(['recur_task'], ['tasks.id'], ),
     sa.ForeignKeyConstraint(['scope'], ['scopes.id'], ),
-    sa.ForeignKeyConstraint(['super_task'], ['tasks.id'], ),
     sa.PrimaryKeyConstraint('id')
     )
     op.create_table('time_slots',
