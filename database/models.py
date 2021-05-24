@@ -1,5 +1,5 @@
 from .rdb import db
-from .priority import calculators as prio
+from ..priority import priority as prio
 import datetime as dt
 
 
@@ -49,22 +49,22 @@ class Task(db.Model):
         :param time_slots: TimeSlot - Optional timeslot associated with task
 
     """
-    def __init__(  # TODO: get constructor done
+    def __init__(
         self,
         name,
         status=1,
-        priority=None,  # TODO add priority here
+        priority=None,
         visible=True,
         start_date=dt.datetime.now(),
         creation_date=dt.datetime.now(),
         due_date=dt.MAXYEAR,
         completion_date=None,
-        start_priority=None,  # TODO add a priorty function
-        creation_priority=None,  # Here too
-        due_priority=None,  # Here too
-        completion_priority=None,  # Here too
-        recur_task=None,  # Input task objects here and below
-        super_task=None,
+        start_priority=None,
+        creation_priority=None,
+        due_priority=None,
+        completion_priority=None,
+        recur_task=None,
+        super_task=None, #TODO: change when super/sub task is done
         scope=None,
     ):
         if priority is None:
@@ -134,6 +134,7 @@ class Task(db.Model):
     recur_task = db.Column(db.Integer, db.ForeignKey("tasks.id"))
     recur_tasks = db.relationship("Task")#, backref="framework_task", lazy=True)
 
+    # TODO: implement super/sub_tasks
     # super_task = db.Column(db.Integer, db.ForeignKey("tasks.id"))
     #sub_tasks = db.relationship("Task", backref="super_task", lazy=True)
 

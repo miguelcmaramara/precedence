@@ -39,13 +39,6 @@ def priority(scopes, tags, dateDue, dateNow=dt.datetime.now(), precision="Hours"
     # Date
     dateBetween = dateNow - dateDue
     prio += 4**(-dateBetween.seconds/3600) / 100 + 1.5**1
-    # TODO: Fix prio
-    print(f"prio: {prio}")
-    print(-dateBetween.seconds)
-    print(-dateBetween.seconds/3600)
-    print(4**(-dateBetween.seconds/3600))
-    print(4**(-dateBetween.seconds/3600)/100)
-    print(4**(-dateBetween.seconds/3600)/100 + 1.5 **1)
 
     return prio
 
