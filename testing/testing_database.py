@@ -43,37 +43,37 @@ def add_time_slot():
 
     models.db.session.add(new_time_slot)
     models.db.session.commit()
-    return{"message": f"time slot {new_time_slot.name} \
-        has been created successfully"}
+    return{"message": f"time slot {new_time_slot.name} has been created successfully"}
 
 
 @testing_db.route("/test/<obj_type>/<obj_id>")
 def get_obj(obj_type, obj_id):
     obj = None
+    print(obj_type)
     if(obj_type == "task"):
         obj = models.Task.query.get_or_404(obj_id)
-    if(obj_type == "scope"):
-        obj = models.Scope.query.get_or_402(obj_id)
-    if(obj_type == "time_slot"):
-        obj = models.TimeSlot.query.get_or_402(obj_id)
+    elif(obj_type == "scope"):
+        obj = models.Scope.query.get_or_404(obj_id)
+    elif(obj_type == "time_slot"):
+        obj = models.TimeSlot.query.get_or_404(obj_id)
     else:
         return{"message": "type mismatch"}
 
     return{
         "message": "success",
-        "obj": f"type: {obj.name} of {obj.__name__} type"
+        "obj": f"type: {obj.name} of {type(obj).__name__} type"
     }
 
 
-@testing_db.route("/test/<obj_type>/<obj_id>/type")
+@testing_db.route("/test/<obj_type>/<obj_id>/drop")
 def drop_obj(obj_type, obj_id):
     obj = None
     if(obj_type == "task"):
         obj = models.Task.query.get_or_404(obj_id)
     if(obj_type == "scope"):
-        obj = models.Scope.query.get_or_402(obj_id)
+        obj = models.Scope.query.get_or_404(obj_id)
     if(obj_type == "time_slot"):
-        obj = models.TimeSlot.query.get_or_402(obj_id)
+        obj = models.TimeSlot.query.get_or_404(obj_id)
     else:
         return{"message": "type mismatch"}
 
@@ -82,5 +82,5 @@ def drop_obj(obj_type, obj_id):
 
     return{
         "message": "success",
-        "obj": f"type: {obj.name} of {obj.__name__} type has been deleted"
+        "obj": f"type: {obj.name} of {type(obj).__name__} type has been deleted"
     }

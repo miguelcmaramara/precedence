@@ -48,7 +48,6 @@ class Task(db.Model):
         :param super_task: Task - Optional task which depends on this task
         :param time_slots: TimeSlot - Optional timeslot associated with task
 
-        scope
     """
     def __init__(  # TODO: get constructor done
         self,
@@ -180,7 +179,7 @@ class Scope(db.Model):
         visible=True,
         start_date=dt.datetime.now(),
         creation_date=dt.datetime.now(),
-        due_date=dt.MAXYEAR,
+        due_date=dt.datetime.now() + dt.timedelta(weeks=5000*52),
         completion_date=None,
         project=False,
         color="red",
@@ -215,7 +214,7 @@ class Scope(db.Model):
     sub_scopes = db.relationship("Scope")  #, backref="super_scope", lazy=True)
 
     # NOTE Should I change the backref name of this haha
-    tasks = db.relationship("Scope")  #, backref="asc_scope", lazy=True)
+    scoped_tasks = db.relationship("Scope")  #, backref="asc_scope", lazy=True)
 
 
 class TimeSlot(db.Model):
@@ -246,7 +245,8 @@ class TimeSlot(db.Model):
         task=None,
         success=0
     ):
-        self.task = task.id
+        if task is not None:
+            self.task = task.id
         self.name = name
         self.success = success
         self.start_date = start_date
