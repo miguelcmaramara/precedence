@@ -1,6 +1,7 @@
 from ..database import models
 import datetime as dt
 from flask import Blueprint
+from .. helpers import converters as conv
 
 print("-> testing_database loaded")
 testing_db = Blueprint("testing", __name__)
@@ -19,8 +20,10 @@ def add_task():
 
     models.db.session.add(new_task)
     models.db.session.commit()
-    return{"message": f"scope {new_task.name} has been created successfully"}
-
+    return{
+        "message": f"scope {new_task.name} has been created successfully",
+        "obj": conv.row2dict(new_task)
+    }
 
 @testing_db.route("/test/add_scope")
 def add_scope():
@@ -30,7 +33,10 @@ def add_scope():
 
     models.db.session.add(new_scope)
     models.db.session.commit()
-    return{"message": f"scope {new_scope.name} has been created successfully"}
+    return{"message": f"scope {new_scope.name} has been created successfully",
+        "obj": conv.row2dict(new_scope)
+    }
+
 
 
 @testing_db.route("/test/add_time_slot")
@@ -43,7 +49,10 @@ def add_time_slot():
 
     models.db.session.add(new_time_slot)
     models.db.session.commit()
-    return{"message": f"time slot {new_time_slot.name} has been created successfully"}
+    return{"message": f"time slot {new_time_slot.name} has been created successfully",
+        "obj": conv.row2dict(new_time_slot)
+    }
+
 
 
 @testing_db.route("/test/<obj_type>/<obj_id>")
@@ -60,8 +69,8 @@ def get_obj(obj_type, obj_id):
         return{"message": "type mismatch"}
 
     return{
-        "message": "success",
-        "obj": f"type: {obj.name} of {type(obj).__name__} type"
+        "message": f"success: {obj.name} of {type(obj).__name__} type",
+        "obj": conv.row2dict(obj)
     }
 
 
@@ -70,9 +79,9 @@ def drop_obj(obj_type, obj_id):
     obj = None
     if(obj_type == "task"):
         obj = models.Task.query.get_or_404(obj_id)
-    if(obj_type == "scope"):
+    elif(obj_type == "scope"):
         obj = models.Scope.query.get_or_404(obj_id)
-    if(obj_type == "time_slot"):
+    elif(obj_type == "time_slot"):
         obj = models.TimeSlot.query.get_or_404(obj_id)
     else:
         return{"message": "type mismatch"}
@@ -81,6 +90,6 @@ def drop_obj(obj_type, obj_id):
     models.db.session.commit()
 
     return{
-        "message": "success",
-        "obj": f"type: {obj.name} of {type(obj).__name__} type has been deleted"
+        "message": f"success: deleted {obj.name} of {type(obj).__name__} type",
+        "obj": conv.row2dict(obj)
     }
