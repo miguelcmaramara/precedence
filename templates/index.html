@@ -11,6 +11,15 @@
         <div class="page">
             <div class="menu large-container">
                 <h1>Menu side</h1>
+                <form action="{{url_for('frontend.make_task')}}" method="post">
+                    <p>Name: <input type="text" name="name"/></p>
+                    <p>scope: <input type="text" name="scope"/></p>
+                    <p>status: <input type="text" name="scope"/></p>
+                    <p>start_date: <input type="datetime-local" name="start_date"/></p>
+                    <p>due_date: <input type="datetime-local" name="due_date"/></p>
+
+                    <p><input type="submit" name="submit"/></p>
+                </form>
             </div>
 
             <div class="task-list large-container">

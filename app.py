@@ -3,7 +3,6 @@ from .database import models
 from .config import DB_CREDENTIALS
 from .testing import testing_database as tb
 from .templates import views as fviews
-# from . import testing
 
 print("-> database is running")
 
