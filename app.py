@@ -14,6 +14,7 @@ def create_db(app):
 def create_app():
     print("database is running")
     app = Flask(__name__)
+    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     app.config['SQLALCHEMY_DATABASE_URI'] = \
         'postgresql://%(user)s:%(pw)s@%(host)s:%(port)s/%(db)s' \
         % DB_CREDENTIALS

@@ -1,0 +1,56 @@
+*{
+    box-sizing: border-box;
+}
+
+
+.page{
+    display: grid;
+    grid-template-columns: 40px auto 40px auto 40px;
+    grid-template-rows: 40px auto 40px;
+}
+
+.menu{
+    grid-column: 2/3;
+    grid-row: 2/3;
+}
+
+.task-list{
+    grid-column: 4/5;
+    grid-row:2/3;
+    padding: 10px;
+}
+
+/**
+* Task bar styling
+*/
+.task{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    margin: 10px 0 10px 0;
+
+}
+.task-name{
+    width: 50%;
+}
+
+.proj{
+    height: 30px;
+    padding: 2px 10px 2px 10px;
+    text-align: center;
+    vertical-align: middle;
+    /*Flex for centering text*/
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.proj-text{
+    margin: 0px; /* this is to keep text within the box*/
+    flex: 0 0 auto;
+}
+
+#mydiv{
+    position: absolute;
+}

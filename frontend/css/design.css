@@ -1,0 +1,25 @@
+:root{
+    --main-bg-col: #FFFFFF;
+    --main-dark-col: #424B54;
+    --main-cool-col:#39A8AC;
+    --main-high-col:#E2B4BD;
+    --main-warm-col:#9B6A6c;
+}
+
+body{
+    background-color: var(--main-bg-col);
+}
+
+.large-container{
+    outline: 2px solid var(--main-dark-col);
+}
+
+.task{
+    background-color: var(--main-high-col);
+}
+
+
+.proj{
+    color: var(--main-bg-col);
+    background-color: var(--main-warm-col);
+}
