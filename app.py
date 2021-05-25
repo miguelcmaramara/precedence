@@ -2,6 +2,7 @@ from flask import Flask#, register_blueprint
 from .database import models
 from .config import DB_CREDENTIALS
 from .testing import testing_database as tb
+from .templates import views as fviews
 # from . import testing
 
 print("-> database is running")
@@ -21,5 +22,6 @@ def create_app():
     print('postgresql://%(user)s:%(pw)s@%(host)s:%(port)s/%(db)s'
         % DB_CREDENTIALS)
 
+    app.register_blueprint(fviews.frontend)
     app.register_blueprint(tb.testing_db)
     return app
