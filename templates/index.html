@@ -9,7 +9,8 @@
     </head>
     <body>
         <div class="page">
-            <div class="menu large-container">
+
+            <div class="menu large-container"> <!--Menu-->
                 <h1>Menu side</h1>
                 <form action="{{url_for('frontend.make_task')}}" method="post">
                     <p>Name: <input type="text" name="name"/></p>
@@ -22,9 +23,10 @@
                 </form>
             </div>
 
-            <div class="task-list large-container">
+
+            <div class="task-list large-container"> <!--Task list-->
                 <h1>Task List</h1>
-                <div class="task-container">
+                <div class="task-container" id="task-container">
                     <div class="task">
                         <p class="task-name">ExampleText</p>
                         <div class="proj"><h6 class="proj-text">ProjHere</h6></div>
@@ -44,6 +46,49 @@
             </div>
         </div>
 
+        <script>
+            // function newTag(){
+                // create div -> add atributes
+                // create p -> add atributes, add text
+                // create div -> addd attributes
+                // create h6 -> add atrributes, add 
+                // create p -> add attributes, add text
+                // h6 in div
+                // p, div, p in div
+                // add button
+                // add event listener
+                var taskList = document.getElementById("task-container");
+                var task = document.createElement("div");
+                task.classList.add("task");
+
+                var taskName = document.createElement("p");
+                taskName.classList.add("task-name");
+                taskNameText =  document.createTextNode("New Task Name")
+                taskName.appendChild(taskNameText);
+                task.appendChild(taskName);
+
+                var projContainer = document.createElement("div");
+                projContainer.classList.add("proj")
+                var proj = document.createElement("h6");
+                proj.classList.add("proj-text");
+                projText  =  document.createTextNode("Proj Name");
+                proj.appendChild(projText);
+                projContainer.appendChild(proj);
+
+                var prio = document.createElement("p");
+                prio.classList.add("urgency");
+                prioText = document.createTextNode("999");
+                prio.appendChild(prioText);
+
+
+                task.appendChild(taskName);
+                task.appendChild(projContainer);
+                task.appendChild(prio);
+
+                taskList.appendChild(task);
+
+            // }
+        </script>
 
     </body>
 </html>
