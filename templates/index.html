@@ -5,6 +5,8 @@
         <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='css/main.css') }}">
         <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='css/layout.css') }}">
         <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='css/design.css') }}">
+        <script src="{{ url_for('static',filename='js/requests.js')}}"></script>
+        <script src="{{ url_for('static',filename='js/tasks.js')}}"></script>
 
     </head>
     <body>
@@ -30,17 +32,17 @@
                     <div class="task">
                         <p class="task-name">ExampleText</p>
                         <div class="proj"><h6 class="proj-text">ProjHere</h6></div>
-                        <p class="urgency">5.5</p>
+                        <p class="priority">5.5</p>
                     </div>
                     <div class="task">
                         <p class="task-name">ExampleText</p>
                         <div class="proj"><h6 class="proj-text">ProjHere</h6></div>
-                        <p class="urgency">5.5</p>
+                        <p class="priority">5.5</p>
                     </div>
                     <div class="task">
                         <p class="task-name">ExampleText</p>
                         <div class="proj"><h6 class="proj-text">ProjHere</h6></div>
-                        <p class="urgency">5.5</p>
+                        <p class="priority">5.5</p>
                     </div>
                 </div>
             </div>
@@ -76,7 +78,7 @@
                 projContainer.appendChild(proj);
 
                 var prio = document.createElement("p");
-                prio.classList.add("urgency");
+                prio.classList.add("priority");
                 prioText = document.createTextNode("999");
                 prio.appendChild(prioText);
 

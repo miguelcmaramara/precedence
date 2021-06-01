@@ -3,6 +3,7 @@ from .database import models
 from .config import DB_CREDENTIALS
 from .testing import testing_database as tb
 from .templates import views as fviews
+from .database import requests
 
 print("-> database is running")
 
@@ -23,4 +24,5 @@ def create_app():
 
     app.register_blueprint(fviews.frontend)
     app.register_blueprint(tb.testing_db)
+    app.register_blueprint(requests.requests)
     return app
