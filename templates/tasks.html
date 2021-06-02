@@ -1,0 +1,7 @@
+{% for task in tasks%}
+<div class="task">
+    <p class="task-name">{{task.name}}</p>
+    <div class="proj"><h6 class="proj-text">{{task.scope}}</h6></div>
+    <p class="priority">{{task.priority}}</p>
+</div>
+{% endfor%}

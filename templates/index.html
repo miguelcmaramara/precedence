@@ -6,7 +6,6 @@
         <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='css/layout.css') }}">
         <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='css/design.css') }}">
         <script src="{{ url_for('static',filename='js/requests.js')}}"></script>
-        <script src="{{ url_for('static',filename='js/tasks.js')}}"></script>
 
     </head>
     <body>
@@ -48,49 +47,6 @@
             </div>
         </div>
 
-        <script>
-            // function newTag(){
-                // create div -> add atributes
-                // create p -> add atributes, add text
-                // create div -> addd attributes
-                // create h6 -> add atrributes, add 
-                // create p -> add attributes, add text
-                // h6 in div
-                // p, div, p in div
-                // add button
-                // add event listener
-                var taskList = document.getElementById("task-container");
-                var task = document.createElement("div");
-                task.classList.add("task");
-
-                var taskName = document.createElement("p");
-                taskName.classList.add("task-name");
-                taskNameText =  document.createTextNode("New Task Name")
-                taskName.appendChild(taskNameText);
-                task.appendChild(taskName);
-
-                var projContainer = document.createElement("div");
-                projContainer.classList.add("proj")
-                var proj = document.createElement("h6");
-                proj.classList.add("proj-text");
-                projText  =  document.createTextNode("Proj Name");
-                proj.appendChild(projText);
-                projContainer.appendChild(proj);
-
-                var prio = document.createElement("p");
-                prio.classList.add("priority");
-                prioText = document.createTextNode("999");
-                prio.appendChild(prioText);
-
-
-                task.appendChild(taskName);
-                task.appendChild(projContainer);
-                task.appendChild(prio);
-
-                taskList.appendChild(task);
-
-            // }
-        </script>
 
     </body>
 </html>
