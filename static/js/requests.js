@@ -1,37 +1,22 @@
-console.log("Hello World");
+console.log("Requests.js loaded");
 
-var get_URL="http://127.0.0.1:5000" // Unused just in case
+var get_URL="http://127.0.0.1:5000"; // Unused just in case
 
-/* 
-//Depreciated function to get tasks as json rather than html. Kept as reference
+
+/**
+ * TODO: update this task so that it can handle getting different types of tasks filtered
+ * 
+ * getTasks() gets the HTML for the task and then updates the taskList
+ */
 function getTasks(){
     let xhr = new XMLHttpRequest;
     xhr.open('GET', "/request/all_tasks", true);
     xhr.onload = function() {
             if (this.status ===200){
-                console.log(JSON.parse(this.responseText));
-                return JSON.parse(this.responseText);
-            }
-        }
-
-    xhr.send();
-}
-// */
-
-function getTasks(){
-    let xhr = new XMLHttpRequest;
-    xhr.open('GET', "/request/all_tasks", true);
-    xhr.onload = function() {
-            if (this.status ===200){
-                // remove child nodes
-                // insert new nodes
-                console.log(this);
-                console.log(this.responseText);
-                var taskList = document.getElementById("task-container");
-                taskList.innerHTML = this.responseText;
-                // taskList.appendChild(this.responseText);
-
-
+                // For testing
+                // console.log(this);
+                // console.log(this.responseText);
+                updateTasks(this.responseText);
             }
         }
 
@@ -39,3 +24,13 @@ function getTasks(){
 }
 
 getTasks();
+
+/**
+ * Function takes in the string of text as argument a String and sets it as the
+ * innerHTML for the taskList
+ */
+function updateTasks(taskListHTML){
+    if(typeof(taskListHTML) !== "string")
+        throw "taskListHTML is not of string type"
+    document.getElementById("task-container").innerHTML = taskListHTML;
+}

@@ -57,7 +57,7 @@ class Task(db.Model):
         visible=True,
         start_date=dt.datetime.now(),
         creation_date=dt.datetime.now(),
-        due_date=dt.MAXYEAR,
+        due_date=dt.datetime.max,
         completion_date=None,
         start_priority=None,
         creation_priority=None,
@@ -67,6 +67,8 @@ class Task(db.Model):
         super_task=None, #TODO: change when super/sub task is done
         scope=None,
     ):
+        if due_date is None:
+            due_date = dt.datetime.max
         if priority is None:
             # HACK placeholders with tags
             priority = prio.priority(scope, ["tag1", "tag2"], due_date)
@@ -143,6 +145,24 @@ class Task(db.Model):
     scope = db.Column(db.Integer, db.ForeignKey("scopes.id"))
     # TODO: implement tags
     # tags
+
+
+    def completed_now(self):
+        # method used to update the completed priority to now
+        now = dt.datetime.now()
+        self.completion_date = now
+        self.completion_priority = prio.priorityFromTask(self)
+        self.status = 3
+        self.visible = False
+
+
+    def update_prio(self):
+        # method used to change the priority to right now
+        self.priority = prio.priorityFromTask(self)
+
+
+
+
 
 
 class Scope(db.Model):

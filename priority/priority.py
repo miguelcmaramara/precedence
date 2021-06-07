@@ -7,12 +7,12 @@ def priorityTest():
 
 
 def priorityFromTask(task, dateNow=dt.datetime.now(), dateDue=None):
-    if dateDue is not None:
+    if dateDue is None:
         dateDue = task.due_date
 
     return priority(
-            ["proj1", "proj2"],
-            ["tag1", "tag2"],
+            task.scope,
+            ["tag1"],
             dateDue,
             dateNow
         )
@@ -38,9 +38,11 @@ def priority(scopes, tags, dateDue, dateNow=dt.datetime.now(), precision="Hours"
 
     # Date
     dateBetween = dateNow - dateDue
-    prio += 4**(-dateBetween.seconds/3600) / 100 + 1.5**1
+    prio += 4**(dateBetween.total_seconds()/3600/100 + 1.5**1 - .75)
+    print(dateBetween)
+    print(dateBetween.total_seconds()/3600/100)
 
-    return prio
+    return round(prio,2)
 
 
 precision = {  # TODO: implement precision

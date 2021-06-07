@@ -1,7 +1,9 @@
 {% for task in tasks%}
-<div class="task">
+<div class="task" id={{task.id}}>
     <p class="task-name">{{task.name}}</p>
+    <time datetime={{task.due_date.date()}}>{{task.due_date.date()}}</time>
     <div class="proj"><h6 class="proj-text">{{task.scope}}</h6></div>
     <p class="priority">{{task.priority}}</p>
+    <button class="task-button" onclick="taskFinished({{task.id}})">finished</button>
 </div>
-{% endfor%}
+{% endfor %}
