@@ -1,8 +1,9 @@
 ﻿# Precedence
+An open source to-do app
 
 ## Road map
 App
-- [ ] Sort out data pipeline
+- [x] Sort out data pipeline
 
 Priorty
 - [x] Create priority function
